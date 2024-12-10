@@ -1,0 +1,36 @@
+# Start from the official NGINX image
+FROM nginx:latest
+
+# Update the system and install necessary tools
+RUN apt-get update && apt-get install -y \
+    gcc \
+    make \
+    wget \
+    curl \
+    vim \
+    nano \
+    net-tools \
+    iproute2 \
+    iputils-ping \
+    dnsutils \
+    telnet \
+    tcpdump \
+    traceroute \
+    nmap \
+    python3 \
+    python3-pip \
+    golang \
+    git \
+    && apt-get clean
+
+# Copy a default HTML file into the static site directory
+COPY index.html /usr/share/nginx/html/
+
+# Set up Go environment (optional: add to PATH for global use)
+ENV PATH=$PATH:/usr/local/go/bin
+
+# Expose port 80
+EXPOSE 80
+
+# Start NGINX (default behavior of the base image)
+CMD ["nginx", "-g", "daemon off;"]
