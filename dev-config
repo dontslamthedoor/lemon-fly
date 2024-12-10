@@ -1,0 +1,34 @@
+# Base image with useful Linux utilities for DevOps
+FROM ubuntu:20.04
+
+# Set environment variables
+ENV DEBIAN_FRONTEND=noninteractive
+
+# Install common tools
+RUN apt-get update && apt-get install -y \
+    curl \
+    wget \
+    vim \
+    git \
+    net-tools \
+    iputils-ping \
+    dnsutils \
+    traceroute \
+    htop \
+    tcpdump \
+    openssh-client \
+    jq \
+    && apt-get clean
+
+# Add a non-root user (optional for safer usage)
+RUN useradd -ms /bin/bash devops
+
+# Set working directory
+WORKDIR /home/devops
+
+# Switch to non-root user
+USER devops
+
+# Default command (can be overridden)
+CMD ["bash"]
+
